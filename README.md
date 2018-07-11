@@ -6,7 +6,7 @@ Download fasta sequences for some chromosome range from a specific library.
 
 ### Pre-Requisites:
 * bs4
-* urllib.request
+* urllib
 
 ### Usage:
 `getFasta(sequence, output-path, library)`
