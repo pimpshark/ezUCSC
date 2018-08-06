@@ -33,7 +33,7 @@ def getFasta(seq, output, lib="default"):
             pos2 = positions[1]
             print(pos1, pos2)
 
-            sitept1 = 'https://genome.ucsc.edu/cgi-bin/hgc?hgsid=679492491_yetvTaX87oNPfg2XBfYdTROlAajy&g=htcGetDna2&table=&i=mixed&o=' + pos1 + '&l=' + pos1 + '&r=' + pos2 + '&getDnaPos=' + chr + '%3A'
+            sitept1 = 'https://genome.ucsc.edu/cgi-bin/hgc?hgsid=685497575_vSIBY6HIaxZ0VKQ2wZsZHchqaIz5&g=htcGetDna2&table=&i=mixed&o=' + pos1 + '&l=' + pos1 + '&r=' + pos2 + '&getDnaPos=' + chr + '%3A'
             sitept2 = pos1[:3] + '%2C' + pos1[3:6] + '-' + pos2[:3] + '%2C' + pos2[3:6] + '&db=' + lib
             sitept3 = '&hgSeq.cdsExon=1&hgSeq.padding5=0&hgSeq.padding3=0&hgSeq.casing=upper&boolshad.hgSeq.maskRepeats=0&hgSeq.repMasking=lower&boolshad.hgSeq.revComp=0&submit=get+DNA'
 
@@ -47,6 +47,12 @@ def getFasta(seq, output, lib="default"):
                     break
                 elif "scaffold" in i:
                     fasta = i
+            try:
+                type(fasta)
+                print("Fasta Found!")
+            except:
+                print("\n\nERROR in pulling Fasta\n\n")
+                return
             with open(output, "a") as file:
                 file.write(fasta)
                 file.write('\n')
@@ -62,28 +68,34 @@ def getFasta(seq, output, lib="default"):
             pos2 = positions[1]
             print(pos1, pos2)
 
-            sitept1 = 'https://genome.ucsc.edu/cgi-bin/hgc?hgsid=678957319_D4f4xTv5rkFBsJkjyzhQ2CYfqbwX&g=htcGetDna2&table=&i=mixed&o=' + pos1 + '&l=' + pos1 + '&r=' + pos2 + '&getDnaPos=' + chr + '%3A'
+            sitept1 = 'https://genome.ucsc.edu/cgi-bin/hgc?hgsid=685472393_vBUENpT6tcuafSI3JgJpSjkORRhJ&g=htcGetDna2&table=&i=mixed&o=' + pos1 + '&l=' + pos1 + '&r=' + pos2 + '&getDnaPos=' + chr + '%3A'
             sitept2 = pos1[:2] + '%2C' + pos1[2:5] + '%2C' + pos1[5:8] + '-' + pos2[:2] + '%2C' + pos2[2:5] + '%2C' + pos2[5:8] + '&db=' + lib
             sitept3 = '&hgSeq.cdsExon=1&hgSeq.padding5=0&hgSeq.padding3=0&hgSeq.casing=upper&boolshad.hgSeq.maskRepeats=0&hgSeq.repMasking=lower&boolshad.hgSeq.revComp=0&submit=get+DNA'
             site = sitept1 + sitept2 + sitept3
             print('reading from ' + site)
             soup = BeautifulSoup(urllib.request.urlopen(site), "lxml")
             for i in soup.findAll(text=True):
-                #print(i)
                 if chr in i:
                     fasta = i[1:]
                     break
                 elif "scaffold" in i:
                     fasta = i
+            try:
+                type(fasta)
+            except:
+                print("\n\nERROR in pulling Fasta\n\n")
+                print(site)
+                print("\n\n")
+                return
             with open(output, "a") as file:
                 file.write(fasta)
                 file.write('\n')
 
-getFasta('mouse-hcn4-en.bed', 'fasta_for_mouse.fa', 'mm9')
 
-if len(sys.argv) == 3:
-    getFasta(sys.argv[1], sys.argv[2])
-elif len(sys.argv) == 4:
-    getFasta(sys.argv[1], sys.argv[2], sys.argv[3])
-else:
-    print("ERROR: this script requires either two or three inputs")
+
+#if len(sys.argv) == 3:
+#    getFasta(sys.argv[1], sys.argv[2])
+#elif len(sys.argv) == 4:
+#    getFasta(sys.argv[1], sys.argv[2], sys.argv[3])
+#else:
+#    print("ERROR: this script requires either two or three inputs")
