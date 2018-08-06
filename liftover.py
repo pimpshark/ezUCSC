@@ -19,7 +19,6 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 import urllib.request
-from getfasta_ucsc import getFasta
 
 #read bed file to list
 def bed_to_string(bed):
