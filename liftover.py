@@ -19,6 +19,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 import urllib.request
+from getfasta_ucsc import getFasta
 
 #read bed file to list
 def bed_to_string(bed):
@@ -96,7 +97,9 @@ def liftOver(seq,input,output,outpath, inlib='default', outlib='default'):
         animaloutlib.append(x.get_attribute('label'))
     if outlib == 'default':
         database = animaloutlib[0]
-        libused = database.split('/')[1].split(')')[0]
+        libusedsplit = database.split('/')
+        rangelibused = len(libusedsplit) - 1
+        libused = libusedsplit[rangelibused].split(')')[0]
         print("will use " + libused)
     else:
         y = 0
@@ -117,11 +120,15 @@ def liftOver(seq,input,output,outpath, inlib='default', outlib='default'):
     elem.send_keys(seq + Keys.RETURN)
     pathsub = "//input[@name='Submit']"
     browser.find_element_by_xpath(pathsub).click()
-    browser.implicitly_wait(15)
-    elem = browser.find_element_by_link_text('View Conversions')
-    link = elem.get_attribute('href')
-    browser.quit()
-    urllib.request.urlretrieve(link, outpath)
+    try:
+        browser.implicitly_wait(15)
+        elem = browser.find_element_by_link_text('View Conversions')
+        link = elem.get_attribute('href')
+        browser.quit()
+        urllib.request.urlretrieve(link, outpath)
+    except:
+        outlib = 'ERROR: either a timeout occured or liftover could not compare these two genomes with this input'
+        browser.quit()
     if outlib == 'default':
         print(libused)
         return libused
