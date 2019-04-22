@@ -18,7 +18,6 @@ def getFasta(seq, output, lib):
         current = pls.read()
     list = current.split('\n')
     sequence = list[0]
-    #sequencelist = list[:len(list)-1]
     if ',' in sequence:
         sequence = ''.join(sequence.split(','))
     print(sequence)
