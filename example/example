@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# perform liftOver to convert mm9 BED sequences into coordinates for other genomes, from which fasta files are obtained using getFasta
+
+# coordinates are in their own directories, each of which are in one encompassing folder
+
+INPUT=$1
+liftOver=../liftover/liftover.py
+getFasta=../getfasta/getfasta_ucsc.py
+declare -a animals=('rat' 'rabbit' 'human' 'cat' 'cow' 'white rhinoceros' 'chimp' 'gibbon' 'shew' 'dog' 'chinese pangolin' 'bison' 'microbat' 'tarsier' 'squirrel monkey' 'chinese hamster' 'kangaroo rat' 'naked mole-rat' 'guinea pig' 'squirrel' 'pika' 'malayan flying lemur' 'tree shrew')
+
+for d in "$INPUT"/*/; do
+	$liftOver "$INPUT"/"$d"/mm9-bed mouse mouse mm10 mm9
+	for s in $animals; do
+		echo $s
+		if [ $s -eq 'human' ]
+		then
+			$liftOver mm10 mouse human temp mm10
+			$getFasta temp "$INPUT"/"$d"/human.fa hg19
+		else
+			LIB=$liftOver mm10 mouse $s temp mm10
+			$getFasta temp "$INPUT"/"$d"/"$s".fa $LIB
+		fi
+		rm temp
+	$getFasta mm10 "$INPUT"/"$d"/mouse.fa mm10
+	rm mm10
+	done	
