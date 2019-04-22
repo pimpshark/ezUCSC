@@ -3,7 +3,6 @@
 """
 
 input genomic positions into the ucsc genome website and download the concurrent fasta files for any indicated organism and library
-if no library is specified, it will assume the library is in the file name in this format filename-lib.bed
 
 """
 from bs4 import BeautifulSoup
