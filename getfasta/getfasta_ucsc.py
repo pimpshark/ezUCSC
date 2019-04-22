@@ -55,10 +55,7 @@ def getFasta(seq, output, lib="default"):
         file.write(fasta)
         file.write('\n')
 
-getFasta('test.fa', 'output', 'mm10')
-#if len(sys.argv) == 3:
-#    getFasta(sys.argv[1], sys.argv[2])
-#elif len(sys.argv) == 4:
-#    getFasta(sys.argv[1], sys.argv[2], sys.argv[3])
-#else:
-#    print("ERROR: this script requires either two or three inputs")
+if len(sys.argv) == 4:
+    getFasta(sys.argv[1], sys.argv[2], sys.argv[3])
+else:
+    print("ERROR: this script requires either two or three inputs")
