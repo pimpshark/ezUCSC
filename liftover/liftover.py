@@ -141,7 +141,7 @@ def total(one, two, three, four, five='default', six='default'):
     return liftOver(sequences, two, three, four, five, six)
 
 
-#if len(sys.argv) == 5:
-#    total(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])
-#elif len(sys.argv) == 7:
-#    total(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6])
+if len(sys.argv) == 5:
+    total(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])
+elif len(sys.argv) == 7:
+    total(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6])
