@@ -12,10 +12,8 @@ from bs4 import *
 import urllib.request
 import sys
 
-def getFasta(seq, output, lib="default"):
+def getFasta(seq, output, lib):
 
-    if lib == 'default':
-        lib = seq.split('.')[0].split('-')[1]
     print('using ' + lib + ' as library')
     with open(seq, 'rt') as pls:
         current = pls.read()
