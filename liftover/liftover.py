@@ -19,7 +19,6 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 import urllib.request
-from getfasta_ucsc import getFasta
 
 #read bed file to list
 def bed_to_string(bed):
@@ -67,7 +66,7 @@ def liftOver(seq,input,output,outpath, inlib='default', outlib='default'):
         l = 0
         for i in animalinlib:
             if inlib.lower() in i.lower():
-                print('selecting ' + i + ' as input library')
+                #print('selecting ' + i + ' as input library')
                 pathinlib = "//select[@name='hglft_fromDb']/option[text()=" + "'" + i + "'" + "]"
                 browser.find_element_by_xpath(pathinlib).click()
                 l=1
@@ -100,22 +99,22 @@ def liftOver(seq,input,output,outpath, inlib='default', outlib='default'):
         libusedsplit = database.split('/')
         rangelibused = len(libusedsplit) - 1
         libused = libusedsplit[rangelibused].split(')')[0]
-        print("will use " + libused)
+        #print("will use " + libused)
     else:
         y = 0
         for i in animaloutlib:
             if outlib.lower() in i.lower():
-                print('selecting ' + i + ' as output library')
+                #print('selecting ' + i + ' as output library')
                 pathoutlib = "//select[@name='hglft_toDb']/option[text()=" + "'" + i + "'" + "]"
                 browser.find_element_by_xpath(pathoutlib).click()
                 y=1
-                print('outlib is ' + outlib)
+                #print('outlib is ' + outlib)
                 #return(outlib)
         if y == 0:
             print('failed to find the output library, ' + outlib + ' on the liftover website')
             return
 
-    print('sending sequences')
+    #print('sending sequences')
     elem = browser.find_element_by_name(seq_box)
     elem.send_keys(seq + Keys.RETURN)
     pathsub = "//input[@name='Submit']"
@@ -130,18 +129,24 @@ def liftOver(seq,input,output,outpath, inlib='default', outlib='default'):
         outlib = 'ERROR: either a timeout occured or liftover could not compare these two genomes with this input'
         browser.quit()
     if outlib == 'default':
-        print(libused)
+        #print(libused)
         return libused
     else:
-        print(outlib)
+        #print(outlib)
         return outlib
 
 def total(one, two, three, four, five='default', six='default'):
     sequences = bed_to_string(one)
-    return liftOver(sequences, two, three, four, five, six)
+    final = liftOver(sequences, two, three, four, five, six)
+    #print("test of liftover " + final)
+    return final
 
 
 if len(sys.argv) == 5:
     total(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])
 elif len(sys.argv) == 7:
     total(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6])
+elif len(sys.argv) == 6:
+    total(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])
+else:
+    print("ERROR, must specify either 4, 5, or 6 arguments")

@@ -33,6 +33,9 @@ def getFasta(seq, output, lib):
     sitept2 = pos1[:2] + '%2C' + pos1[2:5] + '%2C' + pos1[5:8] + '-' + pos2[:2] + '%2C' + pos2[2:5] + '%2C' + pos2[5:8] + '&db=' + lib
     sitept3 = '&hgSeq.cdsExon=1&hgSeq.padding5=0&hgSeq.padding3=0&hgSeq.casing=upper&boolshad.hgSeq.maskRepeats=0&hgSeq.repMasking=lower&boolshad.hgSeq.revComp=0&submit=get+DNA'
     site = sitept1 + sitept2 + sitept3
+    print('the site is \n')
+    print(site)
+    print('\n')
     soup = BeautifulSoup(urllib.request.urlopen(site), "lxml")
     for i in soup.findAll(text=True):
         if 'bad input' in i:
